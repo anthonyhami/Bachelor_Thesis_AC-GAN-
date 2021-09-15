@@ -4,34 +4,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-"""
-for each class {
-   for each real sample in class {
-         calculate histogram using numpy.histogram
-         extract sample histogram values from the hist object, and add them to an "array of real class histogram values"
-    }
-    for each of the 10 fake sample in class {
-         calculate histogram using numpy.histogram
-         extract sample histogram values from the hist object, and add them to an "array of fake class histogram values"
-    }
-    create seaborn line plot with 95% confidence interval for the "array of real class histogram values". This makes the histogram of DNA methylation values for a class with the 95 CI.
-    add seaborn line plot with 95% confidence interval for the "array of fake class histogram values" to the above in a different color, or as another plot if you cannot add it easily
-}
-"""
-"""
-###trash
-def return_df_hist( df, REAL_OR_FAKE,  bins=20, density=False) :
-
-    df_hist = pd.DataFrame( columns =  ["sample_ID", "DNA_meth_bin", "num_CpGs", "Real_or_Fake"])
-
-    for index, row in df.iterrows():
-        hist_list, bin_edges_list = np.histogram(row.values.tolist(), bins=bins, density=density)
-
-        for hist, bin_edges in zip(hist_list, bin_edges_list):
-            df_hist.loc[len(df_hist)] = [class_name + "_" + str(index), bin_edges%100, hist, REAL_OR_FAKE]
-
-    return df_hist
-"""
 
 def return_df_hist( df, REAL_OR_FAKE,  bins=20, density=False) :
     df_hist = pd.DataFrame( columns =  ["sample_ID", "DNA_meth_bin", "num_CpGs", "Real_or_Fake"])
@@ -76,9 +48,6 @@ for index_family in range(39):
         data=df_hist_all, x="DNA_meth_bin", y="num_CpGs", hue="Real_or_Fake", err_style="bars", ci=95,
         markers=True, dashes=False
     )
-    print("df_hist_all=========",df_hist_all)
-
-
 
     plt.savefig("lineplot_" + class_name +".png")
     plt.clf()
